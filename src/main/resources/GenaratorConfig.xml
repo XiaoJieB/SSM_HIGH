@@ -18,7 +18,7 @@
 
         <!--javabean生成位置-->
         <javaModelGenerator
-                targetPackage="entity"
+                targetPackage="com.luobo.entity"
                 targetProject=".\src\main\java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
@@ -34,7 +34,7 @@
         <!--指定dao接口生成位置，mapper接口-->
         <javaClientGenerator
                 type="XMLMAPPER"
-                targetPackage="dao"
+                targetPackage="com.luobo.dao"
                 targetProject=".\src\main\java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
@@ -44,6 +44,6 @@
         <table tableName="item" domainObjectName="Item" ></table>
         <table tableName="orders" domainObjectName="Orders" ></table>
         <table tableName="order_detail" domainObjectName="OrderDetail" ></table>
-
+        <table tableName="token" domainObjectName="Token" ></table>
     </context>
 </generatorConfiguration>

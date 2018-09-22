@@ -24,6 +24,15 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.3.7.RELEASE</version>
         </dependency>
+        <!--spring单元测试-->
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.7.RELEASE</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
         <!--spring 面向切面编程-->
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
         <dependency>
@@ -77,7 +86,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-core -->
         <dependency>
