@@ -14,7 +14,7 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--扫描注解-->
     <!--注释那行不用，坑爹-->
@@ -33,7 +33,13 @@
     <!--spirngmvc不能处理的请求交给handler-->
     <mvc:default-servlet-handler/>
 <!--代替处理映射器和适配器-->
-    <mvc:annotation-driven/>
+    <!--处理json解析-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
 
 </beans>
