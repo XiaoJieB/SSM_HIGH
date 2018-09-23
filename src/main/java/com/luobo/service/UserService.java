@@ -15,7 +15,7 @@ public class UserService {
     UserMapper userMapper;
 
    public List<User> findAll(){
-        return userMapper.selectByExample(null);
+        return userMapper.selectByExampleWithToken(null);
     }
 
 }
