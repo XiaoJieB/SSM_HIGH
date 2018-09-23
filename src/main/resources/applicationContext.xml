@@ -20,7 +20,8 @@
     <context:property-placeholder location="classpath:db.properties"/>
 
     <!--扫描注解-->
-    <context:component-scan base-package="com.luobo" use-default-filters="false">
+    <!--<context:component-scan base-package="com.luobo" use-default-filters="false">-->
+    <context:component-scan base-package="com.luobo">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
     <!--数据源-->
@@ -80,4 +81,11 @@
 
         </tx:attributes>
     </tx:advice>
+
+    <!--配置一个可以执行批量的sqlSession-->
+    <bean class="org.mybatis.spring.SqlSessionTemplate" id="sessionTemplate">
+
+        <constructor-arg ref="sqlSessionFactory" name="sqlSessionFactory"/>
+        <constructor-arg value="BATCH" name="executorType"/>
+    </bean>
 </beans>

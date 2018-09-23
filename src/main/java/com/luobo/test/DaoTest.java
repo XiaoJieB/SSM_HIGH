@@ -18,6 +18,7 @@ public class DaoTest {
 
     @Autowired
     TokenMapper tokenMapper;
+
     @Test
     public void Test() {
 //        //创建springIOC容器
