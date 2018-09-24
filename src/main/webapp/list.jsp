@@ -33,11 +33,31 @@
                 <h4 class="modal-title" id="myModalLabel">员工添加</h4>
             </div>
             <div class="modal-body">
-                ...
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">phone</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" placeholder="phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">phone</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="tokenId">
+                            </select>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
@@ -191,10 +211,20 @@
         }
 
         $("#userAddModalBtn").click(function(){
+            getTokens();
             $('#userAddModal').modal({
                 backdrop:"static"
             });
         });
+        function getTokens() {
+            $.ajax({
+                url:"/token/list",
+                type:"GET",
+                success:function (data) {
+                    console.log(data);
+                }
+            })
+        }
     </script>
 </body>
 </html>
