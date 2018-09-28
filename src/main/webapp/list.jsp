@@ -37,17 +37,19 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="name" placeholder="name">
+                            <input type="text" class="form-control" id="name" placeholder="name" name="name">
+                            <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">phone</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="phone" placeholder="phone">
+                            <input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+                            <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">phone</label>
+                        <label class="col-sm-2 control-label">tokenId</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="tokenId">
                             </select>
@@ -57,7 +59,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="user_save_btn">保存</button>
             </div>
         </div>
     </div>
@@ -107,7 +109,7 @@
     </div>
 </div>
     <script>
-
+        var totalPages;
         <%--页面加载完成以后，发送ajax请求要到json数据--%>
         $(function () {
             to_page(1);
@@ -118,7 +120,6 @@
                 data:"pageNum="+pn,
                 type:"post",
                 success:function (data) {
-                    // console.log(data);
                     /*
                     1.解析并显示员工数据
                     2.显示分页信息
@@ -130,12 +131,11 @@
 
             })
         }
+
         function buildUserTable(data) {
             $("#userTable tbody").empty();
             var e = data.extend.pageInfo.list;
-            console.log(data.extend);
             $.each(e,function (index,item) {
-                console.log(item.name);
                 var userIdTd = $("<td></td>").append(item.id);
                 var userNameTd = $("<td></td>").append(item.name);
                 var userPhoneTd = $("<td></td>").append(item.phone);
@@ -183,6 +183,7 @@
                 postPageLi.addClass("disabled");
                 lastPageLi.addClass("disabled");
             }
+            totalPages =   data.extend.pageInfo.pages + 1;
             $.each(data.extend.pageInfo.navigatepageNums,function (index,item) {
                 var numLi = $("<li></li>").append($("<a></a>").append(item).attr("href","#"));
                 if (data.extend.pageInfo.pageNum == item) {
@@ -218,13 +219,71 @@
         });
         function getTokens() {
             $.ajax({
-                url:"/token/list",
+                url:"/api/token/list",
                 type:"GET",
                 success:function (data) {
-                    console.log(data);
+                    $.each(data.extend.tokenList,function () {
+                        var optionEle = $("<option></option>").append(this.tokenStr).attr("value",this.id);
+                        optionEle.appendTo("#userAddModal select");
+
+                    })
                 }
             })
         }
+        //校验数据
+        function validate_add_form() {
+            /*
+            1.拿到校验数据
+            */
+            var name = $("#name").val();
+            var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]+$)/;
+            var phone = $("#phone").val();
+            var regPhone = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})|(199[0-9]{8})|(198[0-9]{8})|(166[0-9]{8})$/;
+            if (!regName.test(name)) {
+                validate_show("#name","error",'用户名2-5位中文或6-16位英文数字组合');
+                return false;
+            } else {
+                validate_show("#name","success",'');
+            }
+            if (!regPhone.test(phone)) {
+                validate_show("#phone","error",'手机号格式不对');
+                return false;
+            } else {
+                validate_show("#phone","success",'');
+            }
+            return true;
+        }
+
+        function validate_show(ele,status,msg) {
+            $(ele).parent().removeClass("has-success has-error");
+            $(ele).next("span").text("");
+            if (status == "success") {
+                $(ele).parent().addClass("has-success");
+                $(ele).next("span").text("");
+            } else {
+                $(ele).parent().addClass("has-error");
+                $(ele).next("span").text(msg);
+            }
+        }
+        $("#user_save_btn").click(function () {
+            var is = validate_add_form();
+           if (!is) {
+               return false;
+           }
+            $.ajax({
+               url:"/user/user",
+               type:"post",
+               data:$("#userAddModal form").serialize(),
+                success:function (data) {
+                   //员工保存成功
+                    /*
+                    1.
+                     */
+                    $('#userAddModal').modal('hide');
+                    to_page(totalPages)
+                }
+            });
+        });
     </script>
 </body>
 </html>

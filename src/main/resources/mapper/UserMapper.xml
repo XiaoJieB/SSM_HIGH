@@ -298,9 +298,10 @@
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
+    <!--<if test="orderByClause != null">-->
+      <!--order by ${orderByClause}-->
+    <!--</if>-->
+    order by user.id
   </select>
 
   <select id="selectByPrimaryKeyWithToken" parameterType="java.lang.Integer" resultMap="WithTokenResultMap">

@@ -18,4 +18,7 @@ public class UserService {
         return userMapper.selectByExampleWithToken(null);
     }
 
+    public void save(User user) {
+       userMapper.insertSelective(user);
+    }
 }

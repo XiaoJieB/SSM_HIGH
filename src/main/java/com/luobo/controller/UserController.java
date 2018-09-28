@@ -2,13 +2,16 @@ package com.luobo.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.luobo.entity.Message;
 import com.luobo.entity.User;
 import com.luobo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,5 +37,13 @@ public class UserController {
         modelMap.addAttribute("pageInfo",pageInfo);
         return "user/list";
     }
+
+    @RequestMapping(value = "/user",method=RequestMethod.POST)
+    @ResponseBody
+    public Message save(User user) {
+        userService.save(user);
+        return Message.success();
+    }
+
 
 }
